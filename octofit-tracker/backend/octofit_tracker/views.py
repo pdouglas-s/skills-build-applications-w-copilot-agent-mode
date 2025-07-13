@@ -8,7 +8,12 @@ from .models import User, Team, Activity, Leaderboard, Workout
 def api_root(request, format=None):
     if request.method == 'POST':
         return Response({"message": "POST request received"}, status=status.HTTP_201_CREATED)
-    base_url = 'http://localhost:8000/'
+    # Detect host for Codespace or localhost
+    host = request.get_host()
+    if host.startswith('legendary-system-75q45wgqwp6cwwrw-8000.app.github.dev'):
+        base_url = 'https://legendary-system-75q45wgqwp6cwwrw-8000.app.github.dev/'
+    else:
+        base_url = 'http://localhost:8000/'
     return Response({
         'users': base_url + 'api/users/?format=api',
         'teams': base_url + 'api/teams/?format=api',
